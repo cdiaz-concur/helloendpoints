@@ -1,0 +1,301 @@
+{
+  "extends" : "thirdParty.api",
+  "abstract" : false,
+  "root" : "https://concurmobile-ci.appspot.com/_ah/api",
+  "name" : "greenhouse",
+  "version" : "v1",
+  "defaultVersion" : false,
+  "adapter" : {
+    "bns" : "https://concurmobile-ci.appspot.com/_ah/spi",
+    "deadline" : 65.0,
+    "type" : "lily"
+  },
+  "auth" : {
+    "allowCookieAuth" : false
+  },
+  "frontendLimits" : {
+    "unregisteredUserQps" : -1,
+    "unregisteredQps" : -1,
+    "unregisteredDaily" : -1,
+    "rules" : [ ]
+  },
+  "cacheControl" : {
+    "type" : "no-cache",
+    "maxAge" : 0
+  },
+  "methods" : {
+    "greenhouse.ci.message" : {
+      "path" : "webhookbean/{name}",
+      "httpMethod" : "get",
+      "authLevel" : "NONE",
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
+      "audiences" : [ ],
+      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
+      "rosyMethod" : "com.concur.gcp.GreenhouseWebhook.getNotification",
+      "request" : {
+        "parameters" : {
+          "name" : {
+            "type" : "string",
+            "required" : true
+          }
+        },
+        "body" : "empty"
+      },
+      "response" : {
+        "body" : "autoTemplate(backendResponse)"
+      }
+    },
+    "greenhouse.ci.notify" : {
+      "path" : "webhookbean/{id}",
+      "httpMethod" : "post",
+      "authLevel" : "NONE",
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
+      "audiences" : [ ],
+      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
+      "rosyMethod" : "com.concur.gcp.GreenhouseWebhook.insertNotification",
+      "request" : {
+        "parameters" : {
+          "id" : {
+            "type" : "int32",
+            "required" : true
+          }
+        },
+        "body" : "autoTemplate(backendRequest)",
+        "bodyName" : "resource"
+      },
+      "response" : {
+        "body" : "autoTemplate(backendResponse)"
+      }
+    }
+  },
+  "descriptor" : {
+    "schemas" : {
+      "WebhookBean" : {
+        "id" : "WebhookBean",
+        "type" : "object",
+        "properties" : {
+          "encodedKey" : {
+            "type" : "string"
+          },
+          "keyName" : {
+            "type" : "string"
+          },
+          "project" : {
+            "$ref" : "Project"
+          },
+          "buildConfig" : {
+            "$ref" : "BuildConfig"
+          },
+          "build" : {
+            "$ref" : "Build"
+          },
+          "additionalProperties" : {
+            "$ref" : "JsonMap"
+          }
+        }
+      },
+      "Project" : {
+        "id" : "Project",
+        "type" : "object",
+        "properties" : {
+          "encodedKey" : {
+            "type" : "string"
+          },
+          "id" : {
+            "type" : "string"
+          },
+          "name" : {
+            "type" : "string"
+          },
+          "platform" : {
+            "type" : "string"
+          },
+          "repository" : {
+            "type" : "string"
+          },
+          "webUrl" : {
+            "type" : "string"
+          },
+          "additionalProperties" : {
+            "$ref" : "JsonMap"
+          }
+        }
+      },
+      "JsonMap" : {
+        "id" : "JsonMap",
+        "type" : "object"
+      },
+      "BuildConfig" : {
+        "id" : "BuildConfig",
+        "type" : "object",
+        "properties" : {
+          "encodedKey" : {
+            "type" : "string"
+          },
+          "id" : {
+            "type" : "string"
+          },
+          "branch" : {
+            "type" : "string"
+          },
+          "projectFile" : {
+            "type" : "string"
+          },
+          "target" : {
+            "type" : "string"
+          },
+          "additionalProperties" : {
+            "$ref" : "JsonMap"
+          }
+        }
+      },
+      "Build" : {
+        "id" : "Build",
+        "type" : "object",
+        "properties" : {
+          "encodedKey" : {
+            "type" : "string"
+          },
+          "id" : {
+            "type" : "string"
+          },
+          "artefacts" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "Artefact"
+            }
+          },
+          "buildNumber" : {
+            "type" : "integer"
+          },
+          "changes" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "Change"
+            }
+          },
+          "commitHash" : {
+            "type" : "string"
+          },
+          "createdAt" : {
+            "type" : "string"
+          },
+          "errorMessage" : {
+            "type" : "string"
+          },
+          "finishedAt" : {
+            "type" : "string"
+          },
+          "startedAt" : {
+            "type" : "string"
+          },
+          "status" : {
+            "type" : "string"
+          },
+          "tests" : {
+            "$ref" : "Tests"
+          },
+          "version" : {
+            "type" : "string"
+          },
+          "webUrl" : {
+            "type" : "string"
+          },
+          "additionalProperties" : {
+            "$ref" : "JsonMap"
+          }
+        }
+      },
+      "Artefact" : {
+        "id" : "Artefact",
+        "type" : "object",
+        "properties" : {
+          "encodedKey" : {
+            "type" : "string"
+          },
+          "url" : {
+            "type" : "string"
+          },
+          "checksum" : {
+            "type" : "string"
+          },
+          "createdAt" : {
+            "type" : "string"
+          },
+          "type" : {
+            "type" : "string"
+          },
+          "filename" : {
+            "type" : "string"
+          },
+          "additionalProperties" : {
+            "$ref" : "JsonMap"
+          }
+        }
+      },
+      "Change" : {
+        "id" : "Change",
+        "type" : "object",
+        "properties" : {
+          "encodedKey" : {
+            "type" : "string"
+          },
+          "author" : {
+            "type" : "string"
+          },
+          "commitHash" : {
+            "type" : "string"
+          },
+          "datetime" : {
+            "type" : "string"
+          },
+          "description" : {
+            "type" : "string"
+          },
+          "additionalProperties" : {
+            "$ref" : "JsonMap"
+          }
+        }
+      },
+      "Tests" : {
+        "id" : "Tests",
+        "type" : "object",
+        "properties" : {
+          "encodedKey" : {
+            "type" : "string"
+          },
+          "errors" : {
+            "type" : "integer"
+          },
+          "failed" : {
+            "type" : "integer"
+          },
+          "passed" : {
+            "type" : "integer"
+          },
+          "skipped" : {
+            "type" : "integer"
+          },
+          "additionalProperties" : {
+            "$ref" : "JsonMap"
+          }
+        }
+      }
+    },
+    "methods" : {
+      "com.concur.gcp.GreenhouseWebhook.getNotification" : {
+        "response" : {
+          "$ref" : "WebhookBean"
+        }
+      },
+      "com.concur.gcp.GreenhouseWebhook.insertNotification" : {
+        "request" : {
+          "$ref" : "WebhookBean"
+        },
+        "response" : {
+          "$ref" : "WebhookBean"
+        }
+      }
+    }
+  }
+}
